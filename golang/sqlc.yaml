@@ -1,0 +1,36 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./db/query/"
+    schema: "./db/schema/"
+    gen:
+      go:
+        package: "sqlc"
+        out: "sqlc"
+        sql_package: "pgx/v5"
+        emit_json_tags: true
+        emit_interface: true
+        emit_empty_slices: true
+        overrides:
+          - db_type: "timestamp"
+            go_type: "time.Time"
+          - db_type: "serial"
+            go_type: "int32"
+          - db_type: "pg_catalog.int4"
+            go_type: "int32"
+          - db_type: "int4"
+            go_type: "int32"
+          - db_type: "serial4"
+            go_type: "int32"
+          - db_type: "pg_catalog.serial4"
+            go_type: "int32"
+          - db_type: "date"
+            go_type: "time.Time"
+          - db_type: "uuid"
+            go_type: "github.com/google/uuid.UUID"
+          - db_type: "jsonb"
+            go_type:
+              import: "music-app-backend/db/type"
+              package: "type_custom"
+              type: "JSON"
+    
